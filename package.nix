@@ -1,25 +1,26 @@
-{ stdenv
+{ lib
+, stdenvNoCC
 , fetchFromGitHub
 , bash
 , makeWrapper
-, makeBinPath
 , ... }:
 
 let
 
   version = "3.13.0";
 
-in stdenv.mkDerivation {
-
-  pname = "asus-fan-control";
-  inherit version;
-
-  src = fetchfromGitHub {
+  src = fetchFromGitHub {
     repo = "asus-fan-control";
     owner = "dominiksalvet";
     rev = version;
     sha256 = "1ppfqmr3k1p6jf1443c1wkzfds0375cin2dlfhvjnr9nw6qldw3i";
   };
+
+in stdenvNoCC.mkDerivation {
+
+  pname = "asus-fan-control";
+  inherit version;
+  inherit src;
 
   buildInputs = [
     bash
@@ -30,12 +31,11 @@ in stdenv.mkDerivation {
   ];
 
   installPhase = ''
-    mkdir -p $out/{bin,lib,share/{bash-completion/completions,asus-fan-control}}
-    install -m644 $src/bash/afc-completion $out/share/bash-completion/completions/asus-fan-control
-    install -m644 $src/data/models $out/share/asus-fan-control
-    install -m644 $src/.install/afc.service $out/lib/systemd/system/asus-fan-control.service
-    install -m755 $src/asus-fan-control $out/bin/asus-fan-control
-    wrapProgram $out/bin/asus-fan-control --prefix PATH : ${makeBinPath [ bash ]}
+    mkdir -p $out/{bin,share/{bash-completion/completions,asus-fan-control}}
+    install -m644 $src/src/bash/afc-completion $out/share/bash-completion/completions/asus-fan-control
+    install -m644 $src/src/data/models $out/share/asus-fan-control
+    install -m755 $src/src/asus-fan-control $out/bin/asus-fan-control
+    wrapProgram $out/bin/asus-fan-control --prefix PATH : ${lib.makeBinPath [ bash ]}
   '';
 
 }
