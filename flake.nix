@@ -9,7 +9,7 @@
 
   in {
 
-    packages.x86_64-linux = {
+    packages.${system} = {
       asus-fan-control = pkgs.callPackage ./package.nix {};
       default = self.packages.x86_64-linux.asus-fan-control;
     };

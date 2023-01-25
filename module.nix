@@ -1,11 +1,12 @@
 { config
+, pkgs
 , lib
-, asus-fan-control
 , ... }:
 
 let
 
   cfg = config.services.asus-fan-control;
+  asus-fan-control = (pkgs.callPackage ./package.nix {});
 
 in {
 
