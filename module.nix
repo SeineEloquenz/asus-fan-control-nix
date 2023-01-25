@@ -23,6 +23,8 @@ in {
 
     boot.extraModulePackages = with config.boot.kernelPackages; [ acpi_call ];
 
+    environment.systemPackages = [ asus-fan-control ];
+
     systemd.services."asus-fan-control" = {
       enable = true;
       path = [ asus-fan-control ];
@@ -31,7 +33,6 @@ in {
       before = [ "multi-user.target" ];
       after = [ "hibernate.target" "suspend-then-hibernate.target" ];
 
-      preStart = "modprobe acpi_call";
       script = "asus-fan-control";
 
       wantedBy = [ "multi-user.target" "hibernate.target" "suspend-then-hibernate.target" ];
