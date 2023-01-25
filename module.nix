@@ -1,13 +1,11 @@
 { config
-, pkgs
 , lib
+, asus-fan-control
 , ... }:
 
 let
 
   cfg = config.services.asus-fan-control;
-
-  asus-fan-control = (pkgs.callPackage ./package.nix {});
 
 in {
 
@@ -22,6 +20,7 @@ in {
   config = lib.mkIf cfg.enable {
 
     boot.extraModulePackages = with config.boot.kernelPackages; [ acpi_call ];
+    boot.kernelModules = [ "acpi_call" ];
 
     environment.systemPackages = [ asus-fan-control ];
 
