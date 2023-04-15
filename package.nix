@@ -7,13 +7,13 @@
 
 let
 
-  version = "3.13.0";
+  version = "3.14.0";
 
   afc-source = fetchFromGitHub {
     repo = "asus-fan-control";
     owner = "dominiksalvet";
     rev = version;
-    sha256 = "1ppfqmr3k1p6jf1443c1wkzfds0375cin2dlfhvjnr9nw6qldw3i";
+    sha256 = "1s9kkz1m5r8zrj82g4y0xd2dvlx42c97vxzm1q4ifnq2075bgyi6";
   };
 
 in stdenvNoCC.mkDerivation {
